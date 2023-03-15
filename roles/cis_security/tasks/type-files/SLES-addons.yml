@@ -10,7 +10,6 @@
       when: ( not aide_path.stat.exists or not aide_path.stat.isreg ) and ansible_distribution == "SLES"
       tags:
         - 1.3.1
-  when: not skip_1.3.0
   tags:
     - 1.3.0
 
@@ -48,7 +47,6 @@
       when: ansible_distribution == "SLES"
       tags:
         - 1.6.2
-  when: not skip_1.6.0
   tags:
     - 1.6.0
 
@@ -58,7 +56,7 @@
     dest: /etc/systemd/system/default.target
     owner: root
     group: root
-  when: not graphical_interface and not skip_2.2.2
+  when: not graphical_interface
 
 - name: 2.2.2 - Set default runlevel (graphical)
   ansible.builtin.file:
@@ -66,7 +64,7 @@
     dest: /etc/systemd/system/default.target
     owner: root
     group: root
-  when: graphical_interface and not skip_2.2.2
+  when: graphical_interface
 
 - name: Create empty list for unneeded packages
   ansible.builtin.set_fact:
@@ -77,14 +75,13 @@
 - name: 2.2.6 - add openldap server to removal list
   ansible.builtin.set_fact:
     unneeded_packages: "{{ unneeded_packages + ['openldap2'] }}"
-  when: not skip_2.2.6
   tags:
     - 2.2.6
 
 - name: 2.2.10 - Remove httpd; add to removal list
   ansible.builtin.set_fact:
     unneeded_packages: "{{ unneeded_packages + ['apache2'] }}"
-  when: http_server is defined and not http_server and not skip_2.2.10
+  when: http_server is defined and not http_server
   tags:
     - 2.2.10
 
@@ -102,7 +99,7 @@
     name: cron
     enabled: true
     state: started
-  when: ansible_distribution == "SLES" and not skip_5.1.1
+  when: ansible_distribution == "SLES"
   tags:
     - 5.1.1
 
@@ -124,7 +121,7 @@
         regexp: pam_unix.so
         replace: pam_unix.so    sha512
       when: not sha512_exist.found
-  when: ansible_distribution == "SLES" and not skip_5.3.4
+  when: ansible_distribution == "SLES"
   tags:
     - 5.3.4
 
@@ -133,7 +130,7 @@
     path: "{{ item }}"
     replace: "     umask {{ default_umask }}"
     regexp: ^\s*umask\s*022
-  when: ansible_distribution == "SLES" and not skip_5.4.4
+  when: ansible_distribution == "SLES"
   loop:
     - /etc/bash.bashrc.local
     - /etc/profile.local
@@ -152,6 +149,6 @@
   loop:
     - /etc/bash.bashrc.local
     - /etc/profile.local
-  when: ansible_distribution == "SLES" and not skip_5.4.5
+  when: ansible_distribution == "SLES"
   tags:
     - 5.4.5
