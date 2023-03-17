@@ -116,47 +116,33 @@ to measure every need as currently written and shell or command has been utilize
 has the effect of bringing down the quality score on Ansible Galaxy, but the roles can be run multiple times
 without fear of breaking.
 
-### Learning Tool
-A secondary purpose of this collection is to show numerous ways that Ansible can be used to
-manage systems with various modules. The first time a module is used it is commented on many times
-to explain what the module is doing. Other times you may see something like the following:
-
-```
-  - name: 5.4.4 - Ensure umask is set
-    replace:
-      path: "{{ item }}"
-      replace: "     umask {{ default_umask }}"
-      regexp: '^\s*umask\s*022'
-    loop:
-      - /etc/bashrc
-      - /etc/profile
-    when: ansible_distribution != "SLES"
-    tags:
-      - 5.4.4
-
-  - name: 5.4.5 - Ensure shell timeout is {{ shell_timeout }} seconds or less
-    blockinfile:
-      path: "{{ item }}"
-      block: "TMOUT={{ shell_timeout }}"
-      marker: "# {mark} Ansible Managed CIS Timeout"
-    loop:
-      - /etc/bashrc
-      - /etc/profile
-    when: ansible_distribution != "SLES"
-    tags:
-      - 5.4.5
-```
-Both of these tasks manipulate the same file in the same way. They could have been written
-with the same module, even in the same task with a loop, but here it illustrates different
-ways files can be manipuldated with modules.
+### History
+Orginally dsglaser built the cis-security repository and role as a learning tool for Ansible. However, this role solves something many did not, providing a single interfact for 
+multiple OS's to apply security controls for CIS benchmarks. The role was then converted to a collection to allow for easier use and to allow for the addition of Windows controls.
+Unfortunately, the original author has moved on to other projects and is no longer able to maintain the role. The role has been forked and will be maintained here by David Murphy.
 
 
-### Change Log
-- 1/20/2020 - dsglaser@gmail.com - Initial creation
-- 1/22/2020 - dsglaser@gmail.com - Added enhanced selinux controls
-- 2/18/2020 - dsglaser@gmail.com - Added support for Ubuntu 18.04 LTS, added RHEL clone links
-- 2/20/2020 - dsglaser@gmail.com - Fixed numerous tests and rearranged network controls
-- 2/25/2020 - dsglaser@gmail.com - Added SLES 15 SP 1 support
-- 3/17/2020 - dsglaser@gmail.com - Added Windows 2019 support
-- 7/28/2022 - dsglaser@gmail.com - Adapted as a collection. Support for Ubuntu 20.04 and Windows 10
-- 7/28/2022 - dsglaser@gmail.com - Fixed formatting
+### Versioning
+From dgslaser's  repo we have split @ 1.3.3, and will start our versioning at 2.0.0 to avoid confusion where possible.
+
+### Contributing
+Contributions are welcome. Please fork the repo and submit a pull request. If you have any questions, please open an issue.
+
+### License
+MIT License for this code
+Creative Commons Attribution-ShareAlike 4.0 International License for the CIS Benchmarks
+
+### Author
+David Murphy
+
+
+### Acknowledgements
+- @dsglaser for the original role
+- @jaredhocutt for the Windows controls
+- @joshuacox for the SUSE, Ubuntu, CentOS, Oracle, Fedora, RHEL, Debian, and other  controls
+- @joshuacox for the Ansible Galaxy roles for most of the OS's
+- @joshuacox for the Ansible Galaxy collection for most of the OS's
+- @dbmurphy  for the cleanup and maintenance of the roles
+- @dbmurphy  for the Amazon Linux 2 controls
+- @dbmurphy  for the Ansible Galaxy role for Amazon Linux 2
+- @dbmurphy  for updating the collection to Ansible Core 2.15 and Ansible Commnity Package 7.X
