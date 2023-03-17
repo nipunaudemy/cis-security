@@ -1,9 +1,5 @@
 #!/bin/bash
-cat /etc/group | cut -f1 -d":" | sort -n | uniq -c | while read x ; do
-  [ -z "${x}" ] && break
-  set - $x
-  if [ $1 -gt 1 ]; then
-    gids=`awk -F: '($1 == n) { print $3 }' n=$2 /etc/passwd | xargs`
-    echo "Duplicate Group Name ($2): ${gids}"
-  fi
+cut -f1 -d":" /etc/group | sort | uniq -d | while read group_name ; do
+    gids=$(awk -F: -v n="$group_name" '($1 == n) { print $3 }' /etc/group | xargs)
+    echo "Duplicate Group Name ($group_name): $gids"
 done

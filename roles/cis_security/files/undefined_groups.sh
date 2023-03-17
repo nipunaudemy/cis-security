@@ -1,7 +1,9 @@
 #!/bin/bash
-for i in $(cut -s -d: -f4 /etc/passwd | sort -u ); do
-  grep -q -P "^.*?:[^:]*:$i:" /etc/group
-if [ $? -ne 0 ]; then
-  echo "Group $i is referenced by /etc/passwd but does not exist in /etc/group"
-fi
-done
+# Check for groups referenced in /etc/passwd but not in /etc/group
+
+# shellcheck disable=SC2034
+while IFS=: read -r groupname grouppass gid members; do
+    if ! grep -q -P "^$groupname:[^:]*:$gid:" /etc/group; then
+        echo "Group $gid is referenced by /etc/passwd but does not exist in /etc/group"
+    fi
+done < /etc/passwd
