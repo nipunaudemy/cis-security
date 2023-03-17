@@ -1,5 +1,10 @@
 ---
 # defaults file for cis-security see variable descriptions in security-rollup/README.md
+company_domain: "example.com"
+
+security_team:
+    email:  "Security <security@{{ company.domain }}>"
+
 
 ### Mandatory Access controls
 ## Red Hat and Red Hat clones using selinux
@@ -62,6 +67,8 @@ firewalld_default_zone: public  # Linux: default firwall zone
 motd_file: "banner"             # Linux: File location by default in 'files' directory
 issue_file: "issue"             # Linux: File location by default in 'files' directory
 issue.net_file: "issue"         # Linux: File location by default in 'files' diretory
+
+
 ipv6_disable: true              # Common: Set to true to disable ipv6 support on host
 
 # SSH Server settings
