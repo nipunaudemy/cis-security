@@ -1,0 +1,52 @@
+name: Ansible Role CI
+
+on:
+  pull_request:
+    type: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest pylint pycodestyle
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 *.py src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings for now. The GitHub editor is 127 chars wide
+        flake8 *.py src/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Lint with pylint
+      # Disable errors on minor issues for now also
+      run: |
+        pylint *.py src/ --disable=W,C
+
+    - name: Lint with pycodestyle
+      run: |
+        pycodestyle *.py src/ --max-line-length=127 --statistics --count   --benchmark
+
+    - name: Test with pytest
+      run: |
+        if [ -d "tests" ];then
+          echo "Running pytest..."
+          pytest
+        else
+          echo "Skipping pytest not tests present!"
+        fi
+
+    - name: Install Ansible and dependencies
+      run: pip install ansible molecule docker
+    
+    # Molecule tests are not yet ready
+    #- name: Test Ansible role
+    #  run: molecule test
