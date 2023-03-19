@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include cis_security"
+      include_role:
+        name: "cis_security"
