@@ -1,34 +1,35 @@
 #!/bin/bash
-## Find issues in user's PATH variable
+# Find issues in user's PATH variable
 
-if [ "`echo $PATH | grep ::`" != "" ]; then
-    echo "Empty Directory in PATH (::)"
+# Check for empty directories in PATH
+if [[ "$PATH" == *::* ]]; then
+    echo "Empty directory in PATH (::)"
 fi
-if [ "`echo $PATH | grep :$`" != "" ]; then
-    echo "Trailing : in PATH"
+
+# Check for trailing colon in PATH
+if [[ "$PATH" == *: ]]; then
+    echo "Trailing colon in PATH"
 fi
-p=`echo $PATH | sed -e 's/::/:/' -e 's/:$//' -e 's/:/ /g'`
-set -- $p
-while [ "$1" != "" ]; do
-    if [ "$1" = "." ]; then
-        echo "PATH contains ."
-        shift
+
+# Iterate over each directory in PATH
+while IFS=: read -r dir; do
+    # Check for invalid directory
+    if [[ ! -d "$dir" ]]; then
+        echo "$dir is not a directory"
         continue
     fi
-    if [ -d $1 ]; then
-        dirperm=`ls -ldH $1 | cut -f1 -d" "`
-        if [ `echo $dirperm | cut -c6` != "-" ]; then
-            echo "Group Write permission set on directory $1"
+
+    # Check for group or other write permissions
+    dirperm="$(stat -c %A "$dir")"
+    if [[ "$dirperm" != ???*???? ]]; then
+        if [[ "$dirperm" == ?*?w* ]]; then
+            echo "Group or other write permission set on directory $dir"
         fi
-        if [ `echo $dirperm | cut -c9` != "-" ]; then
-        echo "Other Write permission set on directory $1"
-        fi
-        dirown=`ls -ldH $1 | awk '{print $3}'`
-        if [ "$dirown" != "root" ] ; then
-            echo $1 is not owned by root
-        fi
-    else
-        echo $1 is not a directory
     fi
-    shift
-done
+
+    # Check for non-root ownership
+    dirown="$(stat -c %U "$dir")"
+    if [[ "$dirown" != "root" ]]; then
+        echo "$dir is not owned by root"
+    fi
+done <<< "$PATH:"

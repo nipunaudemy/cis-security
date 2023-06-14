@@ -2376,7 +2376,7 @@
         ansible.builtin.shell: "/usr/bin/df --local -P | /usr/bin/awk {' if (NR!=1) print $6'} | /usr/bin/xargs -I '{}' find '{}' -xdev -type f -perm -0002"
         register: ww_files
         changed_when: false
-        check_mode:false
+        check_mode: false
 
       - name: 6.1.10 - Print any world writable files found
         ansible.builtin.debug:
@@ -2394,7 +2394,7 @@
         ansible.builtin.shell: "/usr/bin/df --local -P | /usr/bin/awk {' if (NR!=1) print $6'} | /usr/bin/xargs -I '{}' find '{}' -xdev -nouser"
         register: uo_files
         changed_when: false
-        check_mode:false
+        check_mode: false
 
       - name: 6.1.11 - Print any unowned files found
         ansible.builtin.debug:
@@ -2412,7 +2412,7 @@
         ansible.builtin.shell: "/usr/bin/df --local -P | /usr/bin/awk {' if (NR!=1) print $6'} | /usr/bin/xargs -I '{}' find '{}' -xdev -nogroup"
         register: ug_files
         changed_when: false
-        check_mode:false
+        check_mode: false
 
       - name: 6.1.12 - Print any ungrouped files found
         ansible.builtin.debug:
@@ -2437,7 +2437,7 @@
         ansible.builtin.shell: "/usr/bin/cat /etc/shadow | awk -F: '($2 == \"\" ) { print $1 }'"
         changed_when: false
         register: empty_passwords
-        check_mode:false
+        check_mode: false
 
       - name: 6.2.1 - Report the named users to the report
         ansible.builtin.debug:
