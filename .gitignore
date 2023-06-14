@@ -1,4 +1,4 @@
 vault*
 *.retry
 *.gz
-/.idea/
+.idea/*
