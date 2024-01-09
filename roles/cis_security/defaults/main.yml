@@ -53,6 +53,7 @@ log_host: false # Linux: Whether this machine will host rsyslog messages for oth
 log_port: 514 # Linux: Port to listen to RSYSLOG messages on (if log_host is true)
 log_file_size: 8 # Linux: log file size. RHEL default is 8MB, control has no default
 # rsyslog_file:                  # Linux: Uncomment to copy file listed to /etc/rsyslog.d
+space_left_disk_size: 10000
 
 # network security settings
 tcpwrappers: false # Linux: Configure tcpwrappers controls. RHEL 7 control only
