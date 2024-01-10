@@ -1576,9 +1576,8 @@
         - 4.1.2.2
         - 4.1.2.3
 
-    - name: 4.1.2.[1-2] - Print new AuditD config
-      ansible.builtin.debug:
-        msg: "{{ lookup('file', '/etc/audit/auditd.conf') }}"
+    - name: 4.1.2.[1-2] - Print new AuditD config on remote host
+      ansible.builtin.shell: cat /etc/audit/auditd.conf
       tags:
         - 4.1.2.1
         - 4.1.2.2
