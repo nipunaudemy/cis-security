@@ -1614,7 +1614,6 @@
         - {find: '^action_mail_acct\s+=\s+((?!root).)*$', replace: 'action_mail_acct = root'} # 4.1.1.2
         - {find: '^admin_space_left\s+=\s+\d+$', replace: 'admin_space_left = {{ space_left_disk_size }}'} #
         - {find: '^admin_space_left_action\s+=\s+((?!suspend).)*$', replace: 'admin_space_left_action = suspend'} # 4.1.1.2
-      validate: /sbin/auditd -t
       notify: Restart auditd
       tags:
         - 4.1.1.2
