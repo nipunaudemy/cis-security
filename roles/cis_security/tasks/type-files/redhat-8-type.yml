@@ -1585,7 +1585,7 @@
         replace: "{{ item.replace }}"
       loop:
         - { find: "^max_log_file\\s+=\\s+[^{{ log_file_size }}]", replace: "max_log_file = {{ log_file_size }}" } # 4.1.2.1
-        - { find: "^max_log_file_action\\s+=\\s+(.*)$", replace: "max_log_file_action = {{ max_log_file_action }}" } # 4.1.2.2
+        - { find: "^max_log_file_action\\s+=\\s+((?!{{ max_log_file_action }}).)*$", replace: "max_log_file_action = {{ max_log_file_action }}" } # 4.1.2.2
         - { find: "^space_left_action\\s+=\\s+((?!email).)*$", replace: space_left_action = email } # 4.1.2.2
         - { find: "^action_mail_acct\\s+=\\s+((?!root).)*$", replace: action_mail_acct = root } # 4.1.2.2
         - { find: "^admin_space_left\\s+=\\s+\\d+$", replace: "admin_space_left = {{ space_left_disk_size }}"} #
