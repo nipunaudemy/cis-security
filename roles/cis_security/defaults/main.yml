@@ -57,7 +57,7 @@ auditd_num_logs: 5 # Linux: number of logs to keep. RHEL default is 5, control h
 auditd_max_log_file_action: keep_logs # Linux: action to take when auditd log file is full. RHEL default is keep_logs
 auditd_space_left_disk_size: 10000
 auditd_space_left_action: syslog # Linux: RHEL default is syslog
-auditd_admin_left_disk_size: 5000 # Defautl to 5GB
+auditd_admin_left_disk_size: 500 # Defautl to 500 MB
 auditd_admin_space_left_action: rotate # Linux: RHEL default is rotate
 auditd_action_mail_acct: root # Linux: RHEL default is root
 
