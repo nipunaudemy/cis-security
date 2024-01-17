@@ -55,7 +55,7 @@ log_port: 514 # Linux: Port to listen to RSYSLOG messages on (if log_host is tru
 auditd_max_log_file_size: 8 # Linux: log file size. RHEL default is 8MB, control has no default
 auditd_num_logs: 5 # Linux: number of logs to keep. RHEL default is 5, control has no default
 auditd_max_log_file_action: keep_logs # Linux: action to take when auditd log file is full. RHEL default is keep_logs
-auditd_space_left_disk_size: 10000
+auditd_space_left_disk_size: 1000 # Default 1GB
 auditd_space_left_action: syslog # Linux: RHEL default is syslog
 auditd_admin_left_disk_size: 500 # Defautl to 500 MB
 auditd_admin_space_left_action: rotate # Linux: RHEL default is rotate
